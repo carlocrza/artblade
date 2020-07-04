@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- This line makes it so on mobile your website gets the actual device width (like 400px or so) and not the pixels which could be ~900px -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="index.css">
+        <link rel="shortcut icon" href="favicon.png">
+        <script src="images.js" defer></script>
+        <script src="index.js" defer></script>
+    </head>
+    <body>
+        <main>
+            <header>
+                <h1>artblade</h1>
+                <div class="profile-container">
+                    <img class="profile" src="img/profile.jpg"/>
+                </div>
+                <ul>
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="knitting.html">Knitting</a>
+                    </li>
+                    <li>
+                        <a href="#">Drawing</a>
+                    </li>
+                </ul>
+                <div class="button-container">
+                    <a class="button" id="open-gallery-button" href="#">open gallery</a>
+                </div>
+            </header>
+            <section>
+                <h1>welcome to Laura's snazzy website</h1>
+
+                <p>
+                    Sometimes I like to knit... and draw, and do woodwork, and paint. Check out photos of some of my artwork below. Click any image to enlarge.
+                </p>
+
+                <div id="imageList">
+                </div>
+
+                <h2>discover more</h2>
+                <p>
+                    note how the three cards below maintain a square shape when resizing
+                </p>
+                <div class="card-container">
+                    <div class="button-container card" id="knits-card">
+                        <a class="button">knits</a>
+                    </div>
+                    <div class="button-container card" id="wood-card">
+                        <a class="button">woodwork</a>
+                    </div>
+                    <div class="button-container card" id="draw-card">
+                        <a class="button">drawing</a>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="button-container card">
+                        <span>another style of card</span>
+                    </div>
+                </a>
+                <p>some text and oh <a href="#">here's a link</a>.</p>
+            </section>
+        </main>
+        <div id="modal" tabindex="0">
+            <a href="#" id="modal-left" class="arrow-button">←</a>
+            <div id="modal-image-container">
+                <img id="modal-image">
+                <p id="modal-caption"></p>
+            </div>
+            <a href="#" id="modal-right" class="arrow-button">→</a>
+            <a href="#" id="modal-exit" class="arrow-button">✕</a>
+        </div>
+    </body>
+</html>

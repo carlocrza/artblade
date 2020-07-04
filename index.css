@@ -1,0 +1,282 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 860px;
+    padding: 50px;
+    overflow: auto; /* clearfix hack bc floats - so that padding actually extends to bottom */
+    display: flow-root; /* modern clearfix hack but need above for safari on ios */
+}
+
+header {
+    position: fixed;
+    float: left;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+header ul {
+    list-style-type: none;
+    padding-left: 0px;
+    text-transform: lowercase;
+    font-size: 20px;
+    color: rgb(89, 0, 255);
+}
+
+header ul li {
+    margin: 10px 0px;
+}
+
+section {
+    float: right;
+    max-width: 580px;
+    margin-left: 280px;
+    /* padding-bottom: 50px; */
+}
+
+.button {
+    color: white;
+    display: inline-block;
+    background-color: #e7b5ac; /* ffe7e2 */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 5px 5px -4px rgba(0, 0, 0, .4);
+    transition: all .2s;
+    cursor: pointer;
+    margin: 2px 0px 4px 0px;
+}
+
+.button:hover {
+    background-color: #f5c1b8;
+    background-image: none;
+}
+
+.button:active {
+    transform: translate(0, 5px);
+    box-shadow: 2px 5px 5px -6px rgba(0, 0, 0, .4);
+    outline:none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#knits-card {
+    background-image: url(img/yarn.jpg);
+}
+
+#wood-card {
+    background-image: url(img/woodwork.jpg);
+}
+
+#draw-card {
+    background-image: url(img/drawing.jpg);
+}
+
+.card::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+    float: left;
+}
+
+.card {
+    background-image: url(img/rose.jpg);
+    max-height: 200px;
+    width: 100%;
+    margin: 5px;
+    border-radius: 5px;
+    background-position: center;
+    background-size: cover;
+}
+
+.card span {
+    color: white;
+    font-size: 25px;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, .9);
+    height: 35px;
+}
+
+.card:hover span {
+    background-image: linear-gradient(to top, #ffe7e2 10%,transparent 10%);
+}
+
+section h2 {
+    font-size: 1.3em;
+}
+
+p  {
+    line-height: 1.5;
+    color: rgb(61, 61, 61);
+}
+
+#imageList {
+    /* display: flex;
+    flex-wrap: wrap; */
+}
+
+.a-image-list {
+    text-decoration: none;
+    margin: 5px;
+    display: inline-block; /* so margin applies to top - bottom as well */
+    position: relative;
+
+    /* the following is so that if image doesn't load still takes the space */
+    width: 180px;
+    height: 180px;
+}
+
+.image-list {
+    width: 180px;
+    height: 180px;
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    vertical-align: bottom;
+}
+
+.image-list-caption {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+
+    padding: 5px;
+    margin: 5px;
+
+    background-color: rgba(255, 255, 255, .5);
+    font-size: 12px;
+    
+    opacity: 0;
+    transition: all .5s;
+}
+
+.a-image-list:hover .image-list-caption {
+    opacity: 1;
+}
+
+.profile {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: #246FC8;
+}
+
+a:hover {
+    background-image: linear-gradient(to top, #ffe7e2 30%,transparent 30%);
+}
+
+#modal {
+    background-color: rgba(0, 0, 0, .6);
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+}
+
+#modal-image-container {
+    width: 500px;
+    text-align: center;
+}
+
+#modal-image {
+    max-width: 100%;
+    max-height: 80vh;
+}
+
+#modal-caption {
+    color: white;
+    font-size: 14px;
+    max-height: 70px;
+    overflow-y: auto;
+}
+
+.arrow-button {
+    text-decoration: none;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, .2);
+    border-radius: 50%;
+    color: white;
+    padding: 9px 10px 10px 10px;
+    margin: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 21px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.arrow-button:hover {
+    background-image: none;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+#modal-exit {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.profile::after {
+    content: "test";
+}
+
+
+@media print, screen and (max-width: 700px) {
+    /*
+    the following are nothing fancy, just restoring defaults
+
+    width: auto
+    float: none
+    position: static
+    */
+    main {
+        width:auto;
+        padding-top: 10px;
+    }
+
+    header,section {
+        float: none;
+        position: static;
+        width: auto;
+    }
+
+    header ul li {
+        display: inline;
+        word-spacing: 10px;
+    }
+
+    section {
+        margin-left: 0px;
+    }
+}
+
+@media print, screen and (max-width: 420px) {
+    main {
+        /* Make padding less if mobile (small screen) */
+        padding: 10px 30px 30px 30px;
+    }
+}
