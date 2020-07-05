@@ -7,12 +7,15 @@ const modalLeft = document.getElementById("modal-left");
 const modalRight = document.getElementById("modal-right");
 const imageList = document.getElementById("imageList");
 const modalExit = document.getElementById("modal-exit");
+const zoomInput = document.getElementById("zoom-input");
 let currentImage = 0;
 let modalOpen = false;
 let prevActiveElem = undefined;
 
 const gridContainer = document.querySelector(".grid-container");
 
+
+/* || Create the grid of images */
 images.forEach((img, i ) => {
     if (img.url === undefined) return;
 
@@ -51,11 +54,8 @@ images.forEach((img, i ) => {
     gridContainer.appendChild(a);
 });
 
-changeModalImage(0);
 
-openGalleryButton.onclick = (e) => open(e, 0);
-modal.onclick = exit;
-modalExit.onclick = exit;
+/* || Modal functionality */
 
 function open(e, index) {
     // save what element opened the modal so can return tab focus to there
@@ -65,6 +65,7 @@ function open(e, index) {
     }
 
     modal.style.display = "flex";
+    /* focus lets us tab. note needed to add tabindex="0" to modal overlay for this to work */
     modal.focus();
     changeModalImage(index);
 }
@@ -74,6 +75,8 @@ function changeModalImage(index) {
         currentImage = index;
     }
     const img = images[currentImage];
+    setModalImageZoom(1);
+    zoomInput.value = 0;
     modalImage.src = imagePath + img.url;
     if (img.caption || img.caption_title) {
         modalCaption.style.display = "block";
@@ -100,43 +103,6 @@ function exit(e) {
     }
 }
 
-modalContentContainer.onclick = function(e) {
-    e.stopPropagation();
-}
-
-let scale = 1;
-
-modalImage.onclick = function(e) {
-    e.stopPropagation();
-    scale += .2;
-    modalImage.style.transform = "scale(" + scale + ")";
-}
-
-modalLeft.onclick = goLeft;
-modalRight.onclick = goRight;
-modal.addEventListener("keyup", function(e) {
-    switch (e.key) {
-        case "ArrowLeft":
-            goLeft(e);
-            break;
-        case "ArrowRight":
-            goRight(e);
-            break;
-        case "Escape":
-            exit();
-            break;
-    }
-});
-
-modalExit.addEventListener("keydown", function(e) {
-    console.log("here" + e.key);
-    switch (e.key) {
-        case "Tab":
-            modal.focus();
-            break;
-    }
-});
-
 function goLeft(e) {
     e.stopPropagation();
     currentImage = subByOne(currentImage);
@@ -157,13 +123,127 @@ function subByOne(num) {
     return ((num - 1) + images.length) % images.length;
 }
 
-/* in the end: make sure all `a` tags are selectable, tabbable */
+/* don't exit when click modal content (img / caption) */
+modalContentContainer.onclick = function(e) {
+    e.stopPropagation();
+}
+
+/* on page load get first image in modal */
+changeModalImage(0);
+
+modalLeft.onclick = goLeft;
+modalRight.onclick = goRight;
+openGalleryButton.onclick = (e) => open(e, 0);
+modal.onclick = exit;
+modalExit.onclick = exit;
+
+modal.addEventListener("keyup", function(e) {
+    switch (e.key) {
+        case "ArrowLeft":
+            goLeft(e);
+            break;
+        case "ArrowRight":
+            goRight(e);
+            break;
+        case "Escape":
+            exit();
+            break;
+    }
+});
+
+
+
+
+/* || Zoom */
+
+/* stop left/right arrows from navigating images instead of controlling input */
+zoomInput.addEventListener("keyup", function(e) {
+    e.stopPropagation();
+});
+
+zoomInput.oninput = onZoomInput;
+
+function onZoomInput(e) {
+    const zoom = parseInt(zoomInput.value);
+
+    setModalImageZoom(1 + zoom/10);
+}
+
+function setModalImageZoom(num) {
+    modalImage.style.transform = "scale(" + num + ")";
+}
+
+const zoomMinus = document.getElementById("zoom-minus");
+const zoomPlus = document.getElementById("zoom-plus");
+
+let mouseIsDown = true;
+function zoomOut() {
+    zoomInput.value = String(parseInt(zoomInput.value) - 2);
+    onZoomInput();
+}
+
+function zoomIn() {
+    zoomInput.value = String(parseInt(zoomInput.value) + 2);
+    onZoomInput();
+}
+
+zoomMinus.addEventListener("mousedown", (e) => {
+    mouseIsDown = true;
+
+    zoomOut();
+    const timer = setInterval(function() {
+        if(mouseIsDown === false) {
+            clearInterval(timer)
+        } else {
+            zoomOut();
+        }
+    }, 100);
+});
+
+zoomMinus.addEventListener("mouseup", (e) => {
+    mouseIsDown = false;
+});
+
+zoomPlus.addEventListener("mousedown", (e) => {
+    mouseIsDown = true;
+
+    zoomIn();
+    const timer = setInterval(function() {
+        if(mouseIsDown === false) {
+            clearInterval(timer)
+        } else {
+            zoomIn();
+        }
+    }, 100);
+});
+
+zoomPlus.addEventListener("mouseup", (e) => {
+    mouseIsDown = false;
+});
+
+
+
+/* || Styling, accessibility, other */
+
+/* make all `a` tags are selectable, tabbable even if no href set 
+   note: overwrites css pointer
+*/
 document.querySelectorAll("a").forEach(elem => {
-    elem.setAttribute("tabindex", 0);
+    if (!elem.hasAttribute("tabindex"))
+        elem.setAttribute("tabindex", 0);
     elem.style.cursor = "pointer";
     elem.addEventListener("keydown", e => {
         if (e.key === "Enter") {
             elem.onclick(e);
         }
     });
+});
+
+/* on last elem (exit) make tab go back to beginning of modal instead of background */
+modalExit.addEventListener("keydown", function(e) {
+    switch (e.key) {
+        case "Tab":
+            modal.focus();
+            break;
+    }
 });

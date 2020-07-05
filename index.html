@@ -2,10 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <!-- This line makes it so on mobile your website gets the actual device width (like 400px or so) and not the pixels which could be ~900px -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="index.css">
-        <link rel="shortcut icon" href="favicon.png">
+        <link rel="shortcut icon" href="img/favicon.png">
         <script src="images.js" defer></script>
         <script src="index.js" defer></script>
         <meta name="robots" content="noindex">
@@ -14,72 +13,75 @@
     <body>
         <main>
             <header>
-                <h1>artblade</h1>
-                <div class="profile-container">
+                <div class="header-content">
+                    <h1>artblade</h1>
                     <img class="profile" src="img/profile.jpg"/>
-                </div>
-                <ul>
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="knitting.html">Knitting</a>
-                    </li>
-                    <li>
-                        <a>Drawing</a>
-                    </li>
-                </ul>
-                <div class="button-container">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="knitting.html">Knitting</a>
+                        </li>
+                        <li>
+                            <a>Drawing</a>
+                        </li>
+                    </ul>
                     <a class="button" id="open-gallery-button">open gallery</a>
                 </div>
+                <p class="header-footer">
+                    <a href="https://github.com/carlocrza/artblade">view on github</a> - template by <a href="https://carloc.me">Carlo</a>
+                </p>
             </header>
             <section>
-                <h1>welcome to Laura's snazzy website</h1>
-
+                <h1>welcome to my website mock</h1>
                 <p>
-                    Sometimes I like to knit... and <a>draw, and do woodwork, and paint</a>. Check out photos of some of my artwork below. Click any image to enlarge. note how all images maintain a square aspect ratio when resizing
+                    All photos and artwork courtesy of <a href="https://lauracruz-albrecht.github.io/">Laura</a>. Website design and code by yours truly.
                 </p>
-                <div class="grid-container">
-                </div>
+                <p>
+                    Feel free to check out Laura's artwork below. Click any image to enlarge.
+                </p>
+
+                <div class="grid-container"></div>
 
                 <h2>discover more</h2>
-                <div class="card-container">
-                    <div class="card" id="knits-card">
-                        <!-- <a class="button">knits</a> -->
-                        <a class="link">knits</a>
-                    </div>
-                    <div class="card" id="wood-card">
-                        <!-- <a class="button">woodwork</a> -->
-                        <a class="link">woodwork</a>
-                    </div>
-                    <div class="card" id="draw-card">
-                        <!-- <a class="button">drawing</a> -->
-                        <a class="link">drawing</a>
-                    </div>
-                </div>
-                <h2>testing area</h2>
-                <div class="card-container-large">
-                    <a>
-                        <div class="card">
-                            <a class="link">another style of card</a>
-                        </div>
+                <div class="card-grid">
+                    <a class="card" id="knits-card">
+                        <span class="card-link">knits</span>
                     </a>
-                    <div class="card" style="background-image: url(img/pom.jpg)">
-                        <a class="button">do you like buttons?</a>
-                    </div>
+                    <a class="card" id="wood-card">
+                        <span class="card-link">woodwork</span>
+                    </a>
+                    <a class="card" id="draw-card">
+                        <span class="card-link">drawing</span>
+                    </a>
                 </div>
-                <a class="card-container-solo">
+
+                <h2>some cards</h2>
+                <a class="card stack">
+                    <span class="card-link">another style of card</span>
+                </a>
+                <div class="card stack" style="background-image: url(img/pom.jpg)">
+                    <a class="button">do you like buttons?</a>
+                </div>
+                <a class="no-overflow">
                     <div class="card enlarge-on-hover">
-                        <span style="color: white">hi there it's carlo</span>
+                        <span style="color: white">hi there i can zoom</span>
                     </div>
                 </a>
             </section>
         </main>
+
         <div id="modal" tabindex="0">
             <a id="modal-left" class="arrow-button">←</a>
             <div id="modal-content-container">
                 <div id="modal-image-container">
                     <img id="modal-image">
+                    <div class="zoom-container">
+                        <a class="plus-minus" id="zoom-minus">-</a>
+                        <input id="zoom-input" type="range" min="0" max="50" value="0">
+                        <a class="plus-minus" id="zoom-plus">+</a>
+                    </div>
                 </div>
                 <div id="modal-caption">
                     <h2></h2>

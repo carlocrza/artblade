@@ -1,25 +1,58 @@
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
-    --text-color: rgb(61, 61, 61)
-}
+/* || Layout */
 
 main {
     margin: 0 auto;
     max-width: 860px;
     padding: 50px;
-    overflow: auto; /* clearfix hack bc floats - so that padding actually extends to bottom */
-    display: flow-root; /* modern clearfix hack but need above for safari on ios */
+}
+
+section {
+    max-width: 620px;
+
+    /* margin is to make space for the fixed header */
+    margin-left: 260px;
 }
 
 header {
+    /* these 3 lines are key for the sticky left sidebar layout */
     position: fixed;
     float: left;
     width: 200px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 10px;
+
+    /* enforce height so content expands to fill (bc flex) placing footer at bottom.
+     * subtract some to offset padding above from main and some extra buffer as we're not applying padding-bottom on footer */
+    height: calc(100% - 80px);
+}
+
+.header-content {
+    /* so the content expands (header-content is a flex child of header) */
+    flex: 1 0 auto;
+
+    /* give this container it's own flex to horizontally align items */ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-footer {
+    /* doesn't fill container */
+    flex-shrink: 0;
+
+    font-size: 12px;
+    padding-top: 10px;
+    margin-bottom: 0px;
+}
+
+.profile {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: block;
 }
 
 header ul {
@@ -34,15 +67,37 @@ header ul li {
     margin: 10px 0px;
 }
 
-section {
-    /* float: right; */
-    max-width: 620px;
-    margin-left: 260px;
-    /* padding-bottom: 50px; */
+
+
+
+
+
+
+
+/* || General styling */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    --text-color: rgb(61, 61, 61);
 }
 
-.card .button {
-    box-shadow: 2px 5px 5px -2px rgba(0, 0, 0, .8);
+section h2 {
+    font-size: 1.3em;
+}
+
+p  {
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+p a, ul a, ol a {
+    text-decoration: none;
+    color: #246FC8;
+}
+
+p a:hover, ul a:hover, ol a:hover {
+    background-image: linear-gradient(to top, #ffe7e2 30%,transparent 30%);
 }
 
 .button {
@@ -53,8 +108,6 @@ section {
     border-radius: 10px;
     box-shadow: 2px 5px 5px -4px rgba(0, 0, 0, .4);
     transition: all .2s;
-    cursor: pointer;
-    margin: 2px 0px 4px 0px;
 }
 
 .button:hover {
@@ -68,40 +121,14 @@ section {
     outline:none;
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
 
-.card-container .card {
-    border-radius: 5px;
-    max-height: 150px;
-    flex: 1 0 120px;
-    margin: 5px;
-}
 
-.card-container-large .card {
-    margin: 10px 0px;
-    max-height: 200px;
-    border-radius: 5px;
-}
 
-.card-container-solo {
-    width: 100%;
-    height: 200px;
-    border-radius: 5px;
-    overflow: hidden;
-    display: inline-block;
-}
+/* || Cards || */
 
 .card {
+    display: inline-block;
     background-image: url(img/rose.jpg);
     width: 100%;
     height: 100%;
@@ -113,15 +140,47 @@ section {
     align-items: center;
 }
 
-/* makes cards squares */
+/* make cards square even on resize
+ * padding is based off of parent's *width* so when we resize and the width of card 
+ * is resized (by default bc width=100%), padding-top is also resized by the same amount.
+ * ::before is a child of .card so its padding-top expands the size of .card. If we don't specify a
+ * height for card then this expansion is exactly equal to its width (or another ratio if you
+ * specify a different % for padding-top). Of course if we started adding content
+ * to card this content would be stacked below the padding top. One way to avoid this is to apply
+ * display: flex and center content.
+*/
 .card::before {
     content: "";
-    display: block;
+    display: block; /* need it so padding is observed (padding ignored for inline elems) */
     padding-top: 100%;
-    float: left;
 }
 
-.card .link {
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.card-grid > .card {
+    border-radius: 5px;
+    margin: 5px;
+
+    /* max-height means these won't be squares but better for mobile */
+    max-height: 150px;
+
+    /* 1 = (grow) all even space, 120px = min width before wrapping */
+    flex: 1 0 120px;
+}
+
+.stack {
+    border-radius: 5px;
+    margin: 10px 0px;
+
+    /* max-height means these won't be squares but better for mobile */
+    max-height: 200px;
+}
+
+.card-link  {
     color: white;
     font-weight: 500;
     font-size: 25px;
@@ -130,11 +189,18 @@ section {
     height: 35px;
 }
 
-.card:hover .link {
+.card-link:hover {
     background-image: linear-gradient(to top, #ffe7e2 10%,transparent 10%);
 }
 
+.no-overflow {
+    width: 100%;
+    overflow: hidden;
+    display: inline-block;
+}
+
 .enlarge-on-hover {
+    max-height: 200px;
     transition: transform .2s;
 }
 
@@ -148,13 +214,21 @@ section {
 
 #wood-card {
     background-image: url(img/woodwork.jpg);
-    /* margin-left: 10px;
-    margin-right: 10px; */
 }
 
 #draw-card {
     background-image: url(img/drawing.jpg);
 }
+
+.card .button {
+    box-shadow: 2px 5px 5px -2px rgba(0, 0, 0, .8);
+}
+
+
+
+
+
+/* || responsive grid of square images || */
 
 .grid-container {
     display: flex;
@@ -162,23 +236,24 @@ section {
     flex-wrap: wrap;
 }
 
-.grid-item::before {
-    content: "";
-    display: block;
-    padding-top: 100%;
-    float: left;
-}
-
 .grid-item {
+    /* need minimum 30% space or wrap */
     flex: 1 0 30%;
     background-image: url(img/rose.jpg);
     width: 100%;
     margin: 5px;
     background-position: center;
     background-size: cover;
-    cursor: pointer;
 
+    /* position: relative as anchor for abs position of caption */
     position: relative;
+}
+
+/* make each grid item square (see explanation in cards section above) */
+.grid-item::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
 }
 
 .grid-item-caption {
@@ -195,6 +270,10 @@ section {
     transition: opacity .5s;
 }
 
+.grid-item:hover .grid-item-caption {
+    opacity: 1;
+}
+
 .grid-item-caption h2 {
     color: var(--text-color);
     font-size: 12px;
@@ -207,70 +286,55 @@ section {
     margin: 0;
 }
 
-.grid-item:hover .grid-item-caption {
-    opacity: 1;
-}
 
-section h2 {
-    font-size: 1.3em;
-}
 
-p  {
-    line-height: 1.5;
-    color: var(--text-color);
-}
 
-.profile {
-    object-fit: cover;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    display: block;
-}
 
-p a, ul a, ol a {
-    text-decoration: none;
-    color: #246FC8;
-}
 
-p a:hover, ul a:hover, ol a:hover {
-    background-image: linear-gradient(to top, #ffe7e2 30%,transparent 30%);
-}
+/* || Modal || */
 
 #modal {
-    background-color: rgba(0, 0, 0, .6);
     position: fixed;
     z-index: 1;
-    top: 0px;
-    width: 100%;
-    height: 100vh;
-    display: none;
+    top: 0px; right: 0px; bottom: 0px; left: 0px;
+
+    display: none; /* changed to flex in JS when opened */
     justify-content: center;
     align-items: center;
+
+    /* we make modal overlay focusable so we can tab within, don't want to show the overlay outline */
     outline: none;
+
+    background-color: rgba(0, 0, 0, .6);
 }
 
+/* content is image + caption */
 #modal-content-container {
-    width: 500px;
     /* add the following to constrain image zoom to initial viewport */
     /* display: flex;
     flex-direction: column;
     align-items: center; */
+
+    /* this means entire image + caption group scrolls */
+    width: 500px;
     max-height: 95vh;
     overflow-y: auto;
 }
 
 #modal-image-container {
     /* 
-    sticky position would keep image in place while caption scrolls
+    sticky position would keep image in place while caption scrolls tho doesn't seem great
     position: sticky;
     top: 10px; */
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* for zooming, else would overflow to modal-content-container */
     max-width: 100%;
     max-height: 80vh;
     overflow: hidden;
+    position: relative;
 }
 
 #modal-image {
@@ -278,15 +342,91 @@ p a:hover, ul a:hover, ol a:hover {
     max-height: 80vh;
 }
 
-#modal-image:hover {
-    transform: scale(1.2);
+.arrow-button {
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, .2);
+    border-radius: 50%;
+    color: white;
+    padding: 10px;
+    padding-top: 8px;
+    margin: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 21px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.arrow-button:hover {
+    background-color: rgba(0, 0, 0, .3);
+}
+
+#modal-exit {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+/* || Zoom */
+
+#modal-image-container:hover .zoom-container {
+    opacity: 1;
+}
+
+.zoom-container {
+    background: rgba(0, 0, 0, .6);
+    width: 200px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    user-select: none;
+    position: absolute;
+    bottom: 10px;
+    opacity: 0;
+    transition: opacity .5s ease .5s;
+}
+
+#zoom-input {
+    -webkit-appearance: none;
+
+    width: 120px;
+    height: 50px;
+    background: transparent;
+}
+
+#zoom-input:active {
+    outline: none;
+}
+
+#zoom-input::-webkit-slider-runnable-track {
+    height: 2px;
+    border: none;
+    background: rgba(255, 255, 255, .8);
+}
+
+#zoom-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-top: -9px;
+    background: white;
+}
+
+.plus-minus {
+    color: white;
+    font-size: 30px;
+    font-weight: 200;
+    padding: 12px;
+    padding-top: 8px;
 }
 
 #modal-caption {
     margin-top: 6px;
     padding-left: 4px;
     color: white;
-    /* max-height: 70px; */
     overflow-y: auto;
 }
 
@@ -302,34 +442,11 @@ p a:hover, ul a:hover, ol a:hover {
     margin: 0;
 }
 
-.arrow-button {
-    text-decoration: none;
-    font-size: 20px;
-    background-color: rgba(0, 0, 0, .2);
-    border-radius: 50%;
-    color: white;
-    padding: 9px 10px 10px 10px;
-    margin: 10px;
-    display: inline-block;
-    width: 20px;
-    height: 21px;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-}
 
-.arrow-button:hover {
-    background-image: none;
-    background-color: rgba(0, 0, 0, .3);
-}
-
-#modal-exit {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-}
+/* || Responsive */
 
 @media print, screen and (max-width: 850px) {
+    /* Same layout but section is resizing to the point that the grid elems are a bit small */
     .grid-item {
         flex-basis: 40%;
     }
@@ -337,34 +454,35 @@ p a:hover, ul a:hover, ol a:hover {
 
 @media print, screen and (max-width: 750px) {
     /*
-    the following are nothing fancy, just restoring defaults
-
-    width: auto
-    float: none
-    position: static
+    Dismantle the sidebar layout.
     */
     main {
-        width:auto;
+        /* before: max-width: 860px, padding: 50px */
+        width: auto;
         padding-top: 10px;
     }
 
     header,section {
+        /* before: float: left, position: fiex, fixed widths */
         float: none;
         position: static;
         width: auto;
     }
 
-    header ul li {
-        display: inline;
-        word-spacing: 10px;
-    }
-
     section {
+        /* before: margin left to avoid sidebar, max width */
         margin-left: 0px;
         max-width: none;
     }
 
+    header ul li {
+        /* new! scrunch our sidebar a bit */
+        display: inline;
+        word-spacing: 10px;
+    }
+
     .grid-item {
+        /* more room for our grid - back to columns of 3! */
         flex-basis: 30%;
     }
 }
