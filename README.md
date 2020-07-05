@@ -8,6 +8,6 @@ A simple, clean website template I built using plain HTML, CSS, and JS.
 - Image modal for perusing a photo gallery
 - All interactive elements are accessible via keyboard controls
 
-<img height="400" src="img/demo-desktop.png">
-<img height="400" src="img/demo-mobile.png">
-<img height="400" src="img/demo-modal.png">
+<img width="700" src="img/demo-desktop.png">
+<img width="700" src="img/demo-modal.png">
+<img width="300" src="img/demo-mobile.png">
