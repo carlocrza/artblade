@@ -3,11 +3,8 @@ const imagePath = "img/";
 images = [
     {
         url: "wood.jpg",
-        caption: "some super long caption i love this laura is very skilled at da woodworking some super long caption some super long caption some super long caption some super long caption some  ",
-    },
-    {
-        url: "long.png",
-        caption: "example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines",
+        caption_title: "wood puzzle",
+        caption: "long caption with a caption title :O i love this laura is very skilled at da woodworking some super long caption some ",
     },
     {
         url: "rose.jpg",
@@ -18,15 +15,23 @@ images = [
     },
     {
         url: "orchids.jpg",
-        caption: "short caption",
+        caption_title: "orchids, 2014",
+        caption: "part of my drawing collection",
     },
     {
-        url: "wood.jpg",
-        caption: "caption",
+        url: "woodwork.jpg",
+        caption: "if the caption is super long it just scrolls which isn't great but how to fix it is more of a design choice depending on what you will be using captions for. If you want a lot of text to accompany the image need to design some designated space for it or expandable space. and here is some more text",
     },
     {
-        url: "long.png",
-        caption: "caption",
+        url: "ceramics.jpg",
+        caption_title: "just a caption title",
+    },
+    {
+        url: "drawing.jpg",
+        caption_title: "very long caption prob shouldn't be this long but if it is here is how it looks",
+    },
+    {
+        url: "yarn.jpg",
     },
     {
         url: "rose.jpg",
@@ -46,7 +51,7 @@ images = [
     },
     {
         url: "long.png",
-        caption: "caption",
+        caption: "example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines example for a tall skinny image this is a medium sized caption that fits on two lines",
     },
     {
         url: "rose.jpg",
@@ -62,10 +67,6 @@ images = [
     },
         {
         url: "wood.jpg",
-        caption: "caption",
-    },
-    {
-        url: "long.png",
         caption: "caption",
     },
     {

@@ -1,6 +1,6 @@
 const openGalleryButton = document.getElementById("open-gallery-button");
 const modal = document.getElementById("modal");
-const modalImageContainer = document.getElementById("modal-image-container");
+const modalContentContainer = document.getElementById("modal-content-container");
 const modalImage = document.getElementById("modal-image");
 const modalCaption = document.getElementById("modal-caption");
 const modalLeft = document.getElementById("modal-left");
@@ -11,38 +11,51 @@ let currentImage = 0;
 let modalOpen = false;
 let prevActiveElem = undefined;
 
-images.forEach((img, i) => {
-    if (img.url === undefined) {
-        return;
-    }
-    const aElem = document.createElement("a");
-    aElem.href = "#";
-    aElem.classList.add("a-image-list");
+const gridContainer = document.querySelector(".grid-container");
 
-    const imgElem = document.createElement("img");
-    imgElem.src = imagePath + img.url;
-    imgElem.classList.add("image-list");
+images.forEach((img, i ) => {
+    if (img.url === undefined) return;
 
-    if (img.caption) {
-        const captionElem = document.createElement("p");
-        let caption = img.caption;
-        if (caption.length > 68) {
-            caption = caption.substring(0, 68) + "...";
+    const a = document.createElement("a");
+    a.classList.add("grid-item");
+    a.style.backgroundImage = "url(" + imagePath + img.url + ")";
+
+    if (img.caption_title || img.caption) {
+        const div = document.createElement("div");
+        div.classList.add("grid-item-caption");
+        a.appendChild(div);
+
+        if (img.caption_title) {
+            const h2 = document.createElement("h2");
+            let title = img.caption_title;
+            if (title.length > 30) {
+                title = title.substring(0, 20) + "...";
+            }
+            h2.textContent = title;
+            div.appendChild(h2);
         }
-        captionElem.textContent = caption;
-        captionElem.classList.add("image-list-caption");
-        aElem.appendChild(captionElem);
+    
+        if (img.caption) {
+            const p = document.createElement("p");
+            let caption = img.caption;
+            if (caption.length > 68) {
+                caption = caption.substring(0, 68) + "...";
+            }
+            p.textContent = caption;
+            div.appendChild(p);
+        }
     }
 
-    aElem.onclick = e => open(e, i);
-    aElem.appendChild(imgElem);
-    imageList.appendChild(aElem);
-})
+    a.onclick = e => open(e, i);
+
+    gridContainer.appendChild(a);
+});
 
 changeModalImage(0);
 
-openGalleryButton.onclick = open;
+openGalleryButton.onclick = (e) => open(e, 0);
 modal.onclick = exit;
+modalExit.onclick = exit;
 
 function open(e, index) {
     // save what element opened the modal so can return tab focus to there
@@ -60,8 +73,23 @@ function changeModalImage(index) {
     if (index !== undefined) {
         currentImage = index;
     }
-    modalImage.src = imagePath + images[currentImage].url;
-    modalCaption.textContent = images[currentImage].caption;
+    const img = images[currentImage];
+    modalImage.src = imagePath + img.url;
+    if (img.caption || img.caption_title) {
+        modalCaption.style.display = "block";
+        const h2 = modalCaption.querySelector("h2");
+        const p = modalCaption.querySelector("p");
+        h2.textContent = "";
+        p.textContent = "";
+        if (img.caption_title) {
+            h2.textContent = img.caption_title;
+        }
+        if (img.caption) {
+            p.textContent = img.caption;
+        }
+    } else {
+        modalCaption.style.display = "none";
+    }
 }
 
 function exit(e) {
@@ -72,8 +100,16 @@ function exit(e) {
     }
 }
 
+modalContentContainer.onclick = function(e) {
+    e.stopPropagation();
+}
+
+let scale = 1;
+
 modalImage.onclick = function(e) {
     e.stopPropagation();
+    scale += .2;
+    modalImage.style.transform = "scale(" + scale + ")";
 }
 
 modalLeft.onclick = goLeft;
@@ -120,3 +156,14 @@ function addByOne(num) {
 function subByOne(num) {
     return ((num - 1) + images.length) % images.length;
 }
+
+/* in the end: make sure all `a` tags are selectable, tabbable */
+document.querySelectorAll("a").forEach(elem => {
+    elem.setAttribute("tabindex", 0);
+    elem.style.cursor = "pointer";
+    elem.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            elem.onclick(e);
+        }
+    });
+});
