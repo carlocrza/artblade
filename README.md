@@ -1,4 +1,4 @@
-## carloc.me/artblade
+## [carloc.me/artblade](https://carloc.me/artblade)
 
 A simple, clean website template I built using plain HTML, CSS, and JS.
 
